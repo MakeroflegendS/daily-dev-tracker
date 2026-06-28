@@ -162,9 +162,28 @@
     </div>
 
     <script type="module">
-        // If using Firebase, you would import it here:
-        // import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-        // import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+        // Import Firebase Realtime Database
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+        // ==========================================
+        // 🚨 ADD YOUR FIREBASE CONFIG HERE 🚨
+        // Go to Firebase Console > Project Settings > General > Web App
+        // Copy the firebaseConfig object and paste it below.
+        // ==========================================
+        const firebaseConfig = {
+            databaseURL: "https://console.firebase.google.com/project/dailytasktracker-81ccb/database/dailytasktracker-81ccb-default-rtdb/data/~2F",
+            // apiKey: "YOUR_API_KEY",
+            // authDomain: "YOUR_AUTH_DOMAIN",
+            // projectId: "YOUR_PROJECT_ID",
+            // storageBucket: "YOUR_STORAGE_BUCKET",
+            // messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            // appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
         let isAdmin = false;
 
@@ -178,11 +197,9 @@
         // Make functions globally available since we are using type="module"
         window.toggleAdminMode = function() {
             if (isAdmin) {
-                // If already admin, log out
                 disableAdminUI();
                 localStorage.removeItem('devlog_admin');
             } else {
-                // If not admin, check if we need to show modal
                 if (localStorage.getItem('devlog_admin') === 'true') {
                     enableAdminUI();
                 } else {
@@ -200,30 +217,32 @@
         window.verifyPassword = async function() {
             const input = document.getElementById('passwordInput').value;
             
-            // ==========================================
-            // 🚨 FIREBASE INTEGRATION POINT 🚨
-            // Here you would fetch the actual password and hint from your Firestore database.
-            // Example Firebase logic:
-            // const docRef = doc(db, "settings", "adminAuth");
-            // const docSnap = await getDoc(docRef);
-            // const dbPassword = docSnap.data().password;
-            // const dbHint = docSnap.data().hint;
-            // ==========================================
+            try {
+                // Fetch data from the Realtime Database tree
+                const authRef = ref(db, 'settings/adminAuth');
+                const snapshot = await get(authRef);
+                
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    const dbPassword = data.password;
+                    const dbHint = data.hint;
 
-            // MOCK DATABASE DATA (Replace with Firebase fetched data)
-            const dbPassword = "mysecretproject"; 
-            const dbHint = "The name of my first pet + 'project'";
-
-            if (input === dbPassword) {
-                // Success! Set for life and enable UI
-                localStorage.setItem('devlog_admin', 'true');
-                enableAdminUI();
-                closeAuthModal();
-            } else {
-                // Failure: Show hint
-                document.getElementById('hintText').innerText = dbHint;
-                document.getElementById('passwordHint').classList.remove('hidden');
-                document.getElementById('passwordInput').classList.add('border-red-500');
+                    if (input === dbPassword) {
+                        // Success! Set for life and enable UI
+                        localStorage.setItem('devlog_admin', 'true');
+                        enableAdminUI();
+                        closeAuthModal();
+                    } else {
+                        // Failure: Show hint
+                        document.getElementById('hintText').innerText = dbHint;
+                        document.getElementById('passwordHint').classList.remove('hidden');
+                        document.getElementById('passwordInput').classList.add('border-red-500');
+                    }
+                } else {
+                    console.error("No password data found in database! Make sure you set it up exactly as instructed.");
+                }
+            } catch (error) {
+                console.error("Error fetching from database:", error);
             }
         }
 
