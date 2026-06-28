@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevLog | My Daily Projects</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .timeline-line { position: absolute; left: 1.25rem; top: 0; bottom: 0; width: 2px; background-color: #e2e8f0; z-index: 0; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased">
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-slate-900 text-white p-2 rounded-lg leading-none"><i class="fas fa-terminal"></i></div>
+                <h1 class="text-xl font-bold tracking-tight">DevLog.</h1>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <div class="hidden sm:flex items-center gap-2 text-sm font-medium text-orange-500">
+                    <i class="fas fa-fire"></i> 12 Day Streak
+                </div>
+                <div class="flex items-center gap-2 text-sm">
+                    <span class="text-slate-500">Public</span>
+                    <button id="modeToggle" class="w-12 h-6 bg-slate-200 rounded-full relative transition-colors duration-300 focus:outline-none" onclick="toggleAdminMode()">
+                        <span id="toggleKnob" class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 shadow-sm"></span>
+                    </button>
+                    <span class="text-slate-500">Admin</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        
+        <div id="addEntryForm" class="hidden mb-12 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <h2 class="text-lg font-semibold mb-4 border-b pb-2">Log Today's Work</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <input type="text" placeholder="Project Name" class="col-span-2 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-slate-400">
+                <select class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-slate-400">
+                    <option>🚀 Started</option>
+                    <option>⚡ Continued</option>
+                    <option>✅ Finished</option>
+                </select>
+            </div>
+            <textarea placeholder="What did you build today?" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm mb-4 focus:outline-none focus:border-slate-400"></textarea>
+            <div class="flex justify-between items-center">
+                <input type="text" placeholder="Tags (comma separated)" class="w-1/2 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-slate-400">
+                <button class="bg-slate-900 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition">Post Log</button>
+            </div>
+        </div>
+
+        <div class="relative relative pt-4">
+            <div class="timeline-line"></div>
+
+            <div class="relative pl-12 mb-10">
+                <div class="absolute left-0 top-1.5 w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center border-4 border-white z-10">
+                    <i class="fas fa-check text-sm"></i>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block">Today • June 28</span>
+                            <h3 class="text-lg font-bold text-slate-900">Portfolio Redesign</h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-green-50 text-green-700 border border-green-200 text-xs px-2.5 py-1 rounded-full font-medium">Finished</span>
+                            <div class="admin-actions hidden flex gap-2 ml-2">
+                                <button class="text-slate-400 hover:text-blue-500"><i class="fas fa-pen"></i></button>
+                                <button class="text-slate-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">Completed the final responsive checks and deployed the site to Vercel. Added a dark mode toggle and optimized the images for better Lighthouse scores.</p>
+                    <div class="flex gap-2">
+                        <span class="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">#Deployment</span>
+                        <span class="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">#CSS</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative pl-12 mb-10">
+                <div class="absolute left-0 top-1.5 w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center border-4 border-white z-10">
+                    <i class="fas fa-bolt text-sm"></i>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block">Yesterday • June 27</span>
+                            <h3 class="text-lg font-bold text-slate-900">Portfolio Redesign</h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-orange-50 text-orange-700 border border-orange-200 text-xs px-2.5 py-1 rounded-full font-medium">Continued</span>
+                            <div class="admin-actions hidden flex gap-2 ml-2">
+                                <button class="text-slate-400 hover:text-blue-500"><i class="fas fa-pen"></i></button>
+                                <button class="text-slate-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">Worked on the projects grid today. Integrated a CMS so I can easily add new projects without touching the codebase. Spent way too long fixing a flexbox alignment issue.</p>
+                    <div class="flex gap-2">
+                        <span class="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">#React</span>
+                        <span class="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">#Tailwind</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative pl-12 mb-10">
+                <div class="absolute left-0 top-1.5 w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center border-4 border-white z-10">
+                    <i class="fas fa-rocket text-sm"></i>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block">June 26</span>
+                            <h3 class="text-lg font-bold text-slate-900">Portfolio Redesign</h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-blue-50 text-blue-700 border border-blue-200 text-xs px-2.5 py-1 rounded-full font-medium">Started</span>
+                            <div class="admin-actions hidden flex gap-2 ml-2">
+                                <button class="text-slate-400 hover:text-blue-500"><i class="fas fa-pen"></i></button>
+                                <button class="text-slate-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">Decided my old portfolio was too cluttered. Bootstrapped a new project using Next.js. Set up the basic routing and global styles. Designed the wireframe in Figma before coding.</p>
+                    <div class="flex gap-2">
+                        <span class="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">#Figma</span>
+                        <span class="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">#NextJS</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="authModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm transform transition-all">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-slate-900">Admin Access</h3>
+                <button onclick="closeAuthModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <p class="text-sm text-slate-600 mb-4">Enter your password to unlock edit mode.</p>
+            
+            <input type="password" id="passwordInput" placeholder="Password" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm mb-2 focus:outline-none focus:border-slate-400">
+            
+            <p id="passwordHint" class="text-xs text-orange-500 hidden mb-4">
+                <i class="fas fa-lightbulb"></i> Hint: <span id="hintText">Your Firebase hint will go here</span>
+            </p>
+
+            <button onclick="verifyPassword()" class="w-full bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition mt-2">
+                Unlock
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        // If using Firebase, you would import it here:
+        // import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        // import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+        let isAdmin = false;
+
+        // Check if you've already logged in "for life" on page load
+        window.onload = () => {
+            if (localStorage.getItem('devlog_admin') === 'true') {
+                enableAdminUI();
+            }
+        };
+
+        // Make functions globally available since we are using type="module"
+        window.toggleAdminMode = function() {
+            if (isAdmin) {
+                // If already admin, log out
+                disableAdminUI();
+                localStorage.removeItem('devlog_admin');
+            } else {
+                // If not admin, check if we need to show modal
+                if (localStorage.getItem('devlog_admin') === 'true') {
+                    enableAdminUI();
+                } else {
+                    document.getElementById('authModal').classList.remove('hidden');
+                }
+            }
+        }
+
+        window.closeAuthModal = function() {
+            document.getElementById('authModal').classList.add('hidden');
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordHint').classList.add('hidden');
+        }
+
+        window.verifyPassword = async function() {
+            const input = document.getElementById('passwordInput').value;
+            
+            // ==========================================
+            // 🚨 FIREBASE INTEGRATION POINT 🚨
+            // Here you would fetch the actual password and hint from your Firestore database.
+            // Example Firebase logic:
+            // const docRef = doc(db, "settings", "adminAuth");
+            // const docSnap = await getDoc(docRef);
+            // const dbPassword = docSnap.data().password;
+            // const dbHint = docSnap.data().hint;
+            // ==========================================
+
+            // MOCK DATABASE DATA (Replace with Firebase fetched data)
+            const dbPassword = "mysecretproject"; 
+            const dbHint = "The name of my first pet + 'project'";
+
+            if (input === dbPassword) {
+                // Success! Set for life and enable UI
+                localStorage.setItem('devlog_admin', 'true');
+                enableAdminUI();
+                closeAuthModal();
+            } else {
+                // Failure: Show hint
+                document.getElementById('hintText').innerText = dbHint;
+                document.getElementById('passwordHint').classList.remove('hidden');
+                document.getElementById('passwordInput').classList.add('border-red-500');
+            }
+        }
+
+        function enableAdminUI() {
+            isAdmin = true;
+            document.getElementById('modeToggle').classList.replace('bg-slate-200', 'bg-slate-900');
+            document.getElementById('toggleKnob').classList.add('translate-x-6');
+            document.getElementById('addEntryForm').classList.remove('hidden');
+            document.querySelectorAll('.admin-actions').forEach(el => el.classList.remove('hidden'));
+        }
+
+        function disableAdminUI() {
+            isAdmin = false;
+            document.getElementById('modeToggle').classList.replace('bg-slate-900', 'bg-slate-200');
+            document.getElementById('toggleKnob').classList.remove('translate-x-6');
+            document.getElementById('addEntryForm').classList.add('hidden');
+            document.querySelectorAll('.admin-actions').forEach(el => el.classList.add('hidden'));
+        }
+    </script>
+</body>
+</html>
